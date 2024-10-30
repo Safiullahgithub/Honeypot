@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  honeypot:  # Changed container name to honeypot
+    build: .
+    #network_mode: host # Not work on Mac OS
+    container_name: honeypot  
+    restart: always
+    ports: 
+      - "22:22"
+      - "2222:2222"
+      - "8080:8080"
+      - "8081:8081"
+      - "80:80"
+      - "3306:3306"
+      - "2112:2112" # Prometheus openmetrics
+    environment:
+      RABBITMQ_URI: ${RABBITMQ_URI}
+    volumes:
+      - "./configurations:/configurations"
+    command: honeypot  # Changed start command
